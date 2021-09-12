@@ -20,7 +20,6 @@ const main = async () => {
     const itemPrices = getTypePrices(item, prices);
     // Find the matching options version and add its base price to the total
     itemPrices.forEach((itemPrice) => {
-      // console.log(findPriceByOptions(item, itemPrice));
       total += findPriceByOptions(item, itemPrice);
     });
   }
