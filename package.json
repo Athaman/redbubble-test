@@ -1,0 +1,11 @@
+{
+  "name": "redbubble-challenge",
+  "version": "1.0.0",
+  "description": "A command line interface tool to take a JSON file shopping cart and provide a cost back",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC"
+}
