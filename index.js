@@ -18,12 +18,10 @@ const main = async () => {
     const itemPrices = prices.filter((price) => {
       return price['product-type'] === item['product-type'];
     });
-    // console.log(itemPrices);
     // Find the matching options version and add its base price to the total
     itemPrices.forEach((itemPrice) => {
       const optionKeys = Object.keys(itemPrice.options);
       for (let i = 0; i < optionKeys.length; i++) {
-        // console.log(itemPrice.options[optionKeys[i]]);
         if (
           !itemPrice.options[optionKeys[i]].includes(
             item.options[optionKeys[i]]
@@ -32,13 +30,15 @@ const main = async () => {
           return;
         }
       }
-      // console.log(itemPrice);
-      total += itemPrice['base-price'] * item['quantity'];
+      total +=
+        (itemPrice['base-price'] +
+          Math.round((itemPrice['base-price'] * item['artist-markup']) / 100)) *
+        item['quantity'];
     });
   });
   //  return final cost to the user
   console.log(total);
-  return total;
+  return `${total}\n`;
 };
 
 main();
