@@ -1,12 +1,10 @@
-const { promises: fs } = require('fs');
+const readJSONToObject = require('./helpers/readJSONToObject');
 
 const main = async () => {
   // Accept two arguments from the command line, first is a cart, the second a list of base prices.
-  const [, , cartFile, pricesFile] = [...process.argv];
-
-  // Read the files from the local drives and save them as objects cart and prices
-  const cart = JSON.parse(await fs.readFile(cartFile, 'utf-8'));
-  const prices = JSON.parse(await fs.readFile(pricesFile, 'utf-8'));
+  const [, , cartFileLocation, pricesFileLocation] = [...process.argv];
+  const cart = await readJSONToObject(cartFileLocation);
+  const prices = await readJSONToObject(pricesFileLocation);
 
   //  Set up a total to track the cost
   let total = 0;
