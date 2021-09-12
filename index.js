@@ -1,8 +1,12 @@
 const readJSONToObject = require('./helpers/readJSONToObject');
+const getTypePrices = require('./getTypePrices');
+const findPriceByOptions = require('./findPriceByOptions');
 
 const main = async () => {
   // Accept two arguments from the command line, first is a cart, the second a list of base prices.
   const [, , cartFileLocation, pricesFileLocation] = [...process.argv];
+
+  // Read the files from location given back as objects. Currently sequential, could be made parallel if files are large.
   const cart = await readJSONToObject(cartFileLocation);
   const prices = await readJSONToObject(pricesFileLocation);
 
@@ -21,30 +25,8 @@ const main = async () => {
     });
   }
   //  return final cost to the user
+  console.log(total);
   return `${total}\n`;
 };
 
 main();
-
-const getTypePrices = (item, prices) => {
-  return prices.filter((price) => {
-    return price['product-type'] === item['product-type'];
-  });
-};
-
-const findPriceByOptions = (item, price) => {
-  const optionKeys = Object.keys(price.options);
-  const priceOptions = price.options;
-  const itemOptions = item.options;
-  const basePrice = price['base-price'];
-  const artistMarkup = item['artist-markup'] / 100;
-  const quantity = item['quantity'];
-
-  for (let i = 0; i < optionKeys.length; i++) {
-    const key = optionKeys[i];
-    if (!priceOptions[key].includes(itemOptions[key])) {
-      return 0;
-    }
-  }
-  return (basePrice + Math.round(basePrice * artistMarkup)) * quantity;
-};
