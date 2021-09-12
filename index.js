@@ -13,30 +13,39 @@ const main = async () => {
   Object.keys(cart).forEach((itemKey) => {
     const item = cart[itemKey];
     // Get the items from the price list that correspond to the item type of this item.
-    const itemPrices = prices.filter((price) => {
-      return price['product-type'] === item['product-type'];
-    });
+    const itemPrices = getTypePrices(item, prices);
     // Find the matching options version and add its base price to the total
     itemPrices.forEach((itemPrice) => {
-      const optionKeys = Object.keys(itemPrice.options);
-      for (let i = 0; i < optionKeys.length; i++) {
-        if (
-          !itemPrice.options[optionKeys[i]].includes(
-            item.options[optionKeys[i]]
-          )
-        ) {
-          return;
-        }
-      }
-      total +=
-        (itemPrice['base-price'] +
-          Math.round((itemPrice['base-price'] * item['artist-markup']) / 100)) *
-        item['quantity'];
+      // console.log(findPriceByOptions(item, itemPrice));
+      total += findPriceByOptions(item, itemPrice);
     });
   });
   //  return final cost to the user
   console.log(total);
-  return `${total}\n`;
+  // return `${total}\n`;
 };
 
 main();
+
+const getTypePrices = (item, prices) => {
+  return prices.filter((price) => {
+    return price['product-type'] === item['product-type'];
+  });
+};
+
+const findPriceByOptions = (item, price) => {
+  const optionKeys = Object.keys(price.options);
+  const priceOptions = price.options;
+  const itemOptions = item.options;
+  const basePrice = price['base-price'];
+  const artistMarkup = item['artist-markup'] / 100;
+  const quantity = item['quantity'];
+
+  for (let i = 0; i < optionKeys.length; i++) {
+    const key = optionKeys[i];
+    if (!priceOptions[key].includes(itemOptions[key])) {
+      return 0;
+    }
+  }
+  return (basePrice + Math.round(basePrice * artistMarkup)) * quantity;
+};
