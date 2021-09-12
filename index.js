@@ -10,7 +10,7 @@ const main = async () => {
   let total = 0;
 
   //  iterate over the cart object and look up each item in the price object then add to the total
-  Object.keys(cart).forEach((itemKey) => {
+  for (itemKey in cart) {
     const item = cart[itemKey];
     // Get the items from the price list that correspond to the item type of this item.
     const itemPrices = getTypePrices(item, prices);
@@ -19,7 +19,7 @@ const main = async () => {
       // console.log(findPriceByOptions(item, itemPrice));
       total += findPriceByOptions(item, itemPrice);
     });
-  });
+  }
   //  return final cost to the user
   console.log(total);
   // return `${total}\n`;
