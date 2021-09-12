@@ -7,20 +7,38 @@ const main = async () => {
   // Read the files from the local drives and save them as objects cart and prices
   const cart = JSON.parse(await fs.readFile(cartFile, 'utf-8'));
   const prices = JSON.parse(await fs.readFile(pricesFile, 'utf-8'));
-  console.log(cart);
+
   //  Set up a total to track the cost
   let total = 0;
 
   //  iterate over the cart object and look up each item in the price object then add to the total
-  Object.keys(cart).forEach((item) => {
+  Object.keys(cart).forEach((itemKey) => {
+    const item = cart[itemKey];
     // Get the items from the price list that correspond to the item type of this item.
-    const itemPrices = prices.filter(
-      (price) => price['item-type'] === item['item-type']
-    );
-    console.log(JSON.stringify(itemPrices));
+    const itemPrices = prices.filter((price) => {
+      return price['product-type'] === item['product-type'];
+    });
+    // console.log(itemPrices);
     // Find the matching options version and add its base price to the total
+    itemPrices.forEach((itemPrice) => {
+      const optionKeys = Object.keys(itemPrice.options);
+      for (let i = 0; i < optionKeys.length; i++) {
+        // console.log(itemPrice.options[optionKeys[i]]);
+        if (
+          !itemPrice.options[optionKeys[i]].includes(
+            item.options[optionKeys[i]]
+          )
+        ) {
+          return;
+        }
+      }
+      // console.log(itemPrice);
+      total += itemPrice['base-price'] * item['quantity'];
+    });
   });
   //  return final cost to the user
+  console.log(total);
+  return total;
 };
 
 main();
