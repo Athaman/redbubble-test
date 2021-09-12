@@ -21,8 +21,7 @@ const main = async () => {
     });
   }
   //  return final cost to the user
-  console.log(total);
-  // return `${total}\n`;
+  return `${total}\n`;
 };
 
 main();
