@@ -1,6 +1,14 @@
+Hey there, thanks for taking the time to have a look at this for me.
+
+#Getting started
+run `npm install` to get the node_modules set up and ready to go.
+run `npm test` to run the test suite
+use `node index.js <pathToCart> <pathToPriceList>` to call the entry point in the terminal e.g. `node index.js ./examples/cart-11356.json ./examples/base-prices.json`
+
 Redbubble Coding Test
 Create a price calculator command-line program. Use any language you like.
 
+The spec is included below mostly for my own reference.
 Functional requirements
 Your program should take two command-line arguments:
 a JSON file representing a cart, and
@@ -11,7 +19,7 @@ You can assume that the options for a product-type are constant.
 For example, if the first record with the product-type 'hoodie' in the list of base prices only has the options 'colour' and 'size', all records with the product-type 'hoodie' in the list of base prices will have the options 'colour' and 'size' and will have no other options.
 Your program should output the total price of the cart in cents followed by a newline character.
 As an aid in testing your program, the name of each example cart file mentioned above includes the expected total price for that cart given the base prices in the example base prices file mentioned above.
-When calculating the total price of the cart, your program should calculate the price for one item as follows: (base_price + round(base_price _ artist_markup)) _ quantity
+When calculating the total price of the cart, your program should calculate the price for one item as follows: (base*price + round(base_price * artist*markup)) * quantity
 Note that artist_markup is a percentage, so it will need to be divided by 100.
 Your program should handle products with any options, even ones not found in the sample files.
 The time your program takes to calculate a price should be constant with respect to the number of base prices. (In real life, Redbubble currently has more than 1,000 base prices.)
