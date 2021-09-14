@@ -6,3 +6,6 @@ describe('Unit tests for readJSONToObject', () => {
     expect(typeof readJSONToObject(path)).toBe('object');
   });
 });
+
+// TODO - test errors for non existing paths
+// TODO - test schema for carts and price lists conforms (out of spec)
